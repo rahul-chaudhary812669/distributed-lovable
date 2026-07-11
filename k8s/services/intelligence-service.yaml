@@ -1,0 +1,85 @@
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: intelligence-service
+  namespace: lovable-core
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: intelligence-service
+  template:
+    metadata:
+      labels:
+        app:  intelligence-service
+    spec:
+      containers:
+      - name: intelligence-service
+        image: rahulmahalwaar/lovable-intelligence-service:0.0.1
+        imagePullPolicy: Always
+        env:
+          - name: SPRING_PROFILES_ACTIVE
+            value: k8s
+          - name: CONFIG_SERVER_URL
+            value: http://config-service.lovable-core.svc.cluster.local:8888
+          - name: SPRING_CLOUD_CONFIG_FAIL_FAST
+            value: "false"
+          - name:  SPRING_CLOUD_CONFIG_RETRY_MAX_ATTEMPTS
+            value: "10"
+          - name: SPRING_CLOUD_CONFIG_RETRY_INITIAL_INTERVAL
+            value: "3000"
+          - name: JWT_SECRET
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: JWT_SECRET
+          - name: DB_PASSWORD
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: INTELLIGENCE_DB_PASSWORD
+          - name: AI_API_KEY
+            valueFrom:
+              secretKeyRef:
+                name: app-secrets
+                key: AI_API_KEY
+        ports:
+          - containerPort: 9030
+        resources:
+          requests:
+            memory: "256Mi"
+            cpu: "100m"
+          limits:
+            memory: "512Mi"
+            cpu: "250m"
+        readinessProbe:
+          httpGet:
+            path: /intelligence/actuator/health
+            port: 9030
+          initialDelaySeconds: 90
+          periodSeconds: 15
+          timeoutSeconds: 5
+          failureThreshold: 3
+        startupProbe:
+          httpGet:
+            path: /intelligence/actuator/health
+            port: 9030
+          initialDelaySeconds: 90
+          periodSeconds: 10
+          timeoutSeconds: 5
+          failureThreshold: 30
+
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: intelligence-service
+  namespace: lovable-core
+spec:
+  selector:
+    app: intelligence-service
+  ports:
+  - port: 80
+    targetPort: 9030

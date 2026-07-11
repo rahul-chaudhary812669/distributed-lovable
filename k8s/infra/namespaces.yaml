@@ -1,0 +1,26 @@
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lovable-core
+
+---
+# seperate namespace for previews
+
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: lovable-previews
+
+---
+# configMap 
+
+apiVersion: v1
+kind: ConfigMap
+metadata:
+  name: lovable-shared-config
+  namespace: lovable-core
+data:
+  PREVIEW_DOMAIN: "previews.my-lovable.in"
+  PREVIEW_NAMESPACE: "lovable-previews"
+  PROXY_PORT: "80"

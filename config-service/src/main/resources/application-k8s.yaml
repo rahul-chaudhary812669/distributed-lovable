@@ -1,0 +1,17 @@
+
+spring:
+  cloud:
+    config.server.git:
+      uri: https://github.com/rahul-chaudhary812669/lovable-config-server
+      username: ${GIT_USERNAME}
+      password: ${GIT_PASSWORD}
+
+    discovery:
+      enabled: false
+
+eureka:
+  client:
+    enabled: false
+    register-with-eureka: false
+    fetch-registry: false
+
