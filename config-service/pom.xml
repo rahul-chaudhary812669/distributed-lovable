@@ -80,6 +80,7 @@
                         </tags>
                     </to>
                 </configuration>
+
                 <executions>
                     <execution>
                         <phase>package</phase>
