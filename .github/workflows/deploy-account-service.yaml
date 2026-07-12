@@ -31,8 +31,12 @@ jobs:
           distribution: 'temurin'
           cache: maven
 
-      - name: Make Maven Wrapper executable
-        working-directory: ./${{ env.SERVICE_NAME }}
+      - name: Make Account Service Maven Wrapper executable
+        working-directory: ./account-service
+        run: chmod +x mvnw
+
+      - name: Make Common Lib Maven Wrapper executable
+        working-directory: ./common-lib
         run: chmod +x mvnw
       
       - name: Build and Install Common Lib
