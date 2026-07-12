@@ -30,6 +30,9 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+      - name: Make Maven Wrapper executable
+        working-directory: ./${{ env.SERVICE_NAME }}
+        run: chmod +x mvnw
 
       - name: Build and Push Docker Image with Jib
         working-directory: ./${{ env.SERVICE_NAME }}

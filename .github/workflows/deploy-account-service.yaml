@@ -30,6 +30,10 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
+
+      - name: Make Maven Wrapper executable
+        working-directory: ./${{ env.SERVICE_NAME }}
+        run: chmod +x mvnw
       
       - name: Build and Install Common Lib
         working-directory: ./common-lib
