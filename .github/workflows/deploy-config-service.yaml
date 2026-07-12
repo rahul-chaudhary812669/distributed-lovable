@@ -30,18 +30,29 @@ jobs:
           java-version: '21'
           distribution: 'temurin'
           cache: maven
-      - name: Make Maven Wrapper executable
-        working-directory: ./${{ env.SERVICE_NAME }}
-        run: chmod +x mvnw
 
-      - name: Build and Push Docker Image with Jib
+      - name: Debug config-service
         working-directory: ./${{ env.SERVICE_NAME }}
         run: |
-          ./mvnw compile jib:build \
-            -Djib.to.image=docker.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
-            -Djib.to.tags=latest \
-            -Djib.to.auth.username=${{ secrets.DOCKERHUB_USERNAME }} \
-            -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }}
+          pwd
+          ls -la
+          chmod +x mvnw
+          ls -l mvnw
+          file mvnw
+
+#      - name: Build and Push Docker Image with Jib
+#        working-directory: ./${{ env.SERVICE_NAME }}
+#        run: |
+#          ./mvnw compile jib:build \
+#            -Djib.to.image=docker.io/${{ env.IMAGE_NAME }}:${{ github.sha }} \
+#            -Djib.to.tags=latest \
+#            -Djib.to.auth.username=${{ secrets.DOCKERHUB_USERNAME }} \
+#            -Djib.to.auth.password=${{ secrets.DOCKERHUB_TOKEN }}
+
+      - name: Test Maven Wrapper
+        working-directory: ./${{ env.SERVICE_NAME }}
+        run: |
+          ./mvnw --version
 
       - name: Authenticate to Google Cloud
         uses: google-github-actions/auth@v2

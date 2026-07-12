@@ -9,7 +9,7 @@ on:
 
 env:
   SERVICE_NAME: api-gateway
-  IMAGE_NAME: rahulmahalwaar/lovable-config-service
+  IMAGE_NAME: rahulmahalwaar/lovable-api-gateway
 
 permissions:
   id-token: write
