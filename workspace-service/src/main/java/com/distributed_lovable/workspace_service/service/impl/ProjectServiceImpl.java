@@ -48,7 +48,7 @@ public class ProjectServiceImpl implements ProjectService {
     AccountClient accountClient;
     SecurityExpressions securityExpressions ;
 
-    int PROJECTS_ALLOW_TO_FREE_USERS = 1 ;
+    int PROJECTS_ALLOW_TO_FREE_USERS = 0 ;
 
 
     @Override
