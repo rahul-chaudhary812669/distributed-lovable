@@ -22,15 +22,15 @@ public class ChatController {
     private final AiGenerationService aiGenerationService;
     private final ChatService chatService;
 
-    @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
-    public Flux<ServerSentEvent<StreamResponse>> streamChat(
-            @RequestBody ChatRequest request) {
+    // @PostMapping(value = "/stream", produces = MediaType.TEXT_EVENT_STREAM_VALUE)
+    // public Flux<ServerSentEvent<StreamResponse>> streamChat(
+    //         @RequestBody ChatRequest request) {
 
-        return aiGenerationService.streamResponse(request.message(), request.projectId())
-                .map(data -> ServerSentEvent.<StreamResponse>builder()
-                        .data(data)
-                        .build());
-    }
+    //     return aiGenerationService.streamResponse(request.message(), request.projectId())
+    //             .map(data -> ServerSentEvent.<StreamResponse>builder()
+    //                     .data(data)
+    //                     .build());
+    // }
 
     @GetMapping("/projects/{projectId}")
     public ResponseEntity<List<ChatResponse>> getChatHistory(
